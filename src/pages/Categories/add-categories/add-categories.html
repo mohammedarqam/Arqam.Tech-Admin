@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar color="primary" >
+    <ion-title>Add a Food Categoty</ion-title>
+    <ion-buttons end>
+      <button ion-button clear icon-only (click)="close()">
+        <ion-icon name="md-close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label  floating>Category Name</ion-label>
+        <ion-input type="text" [(ngModel)]="name" (keyup.enter)="checkData()" (ionChange)="capsName(name)" autofocus ></ion-input>
+      </ion-item>
+
+
+    </ion-card-content>
+  </ion-card>
+
+  <button ion-button block (click)="checkData()">Add</button>
+
+
+</ion-content>
