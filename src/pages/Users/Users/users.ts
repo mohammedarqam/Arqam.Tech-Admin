@@ -52,12 +52,8 @@ export class UsersPage {
       return;
     }
     this.users = this.users.filter((v) => {
-      if((v.Name || v.Phone || v.Email) && q) {
-        if (
-          (v.Name.toLowerCase().indexOf(q.toLowerCase()) > -1)
-          ||(v.Phone.toLowerCase().indexOf(q.toLowerCase()) > -1)
-          ||(v.Email.toLowerCase().indexOf(q.toLowerCase()) > -1)
-          ) {
+      if(v.Name && q) {
+        if (v.Name.toLowerCase().indexOf(q.toLowerCase()) > -1) {
           return true;
         }
         return false;

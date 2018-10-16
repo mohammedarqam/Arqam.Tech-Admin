@@ -1,0 +1,16 @@
+page-add-posts {
+
+ion-input,ion-select,ion-textarea{
+    border-bottom: solid 1px map-get($colors,primary);
+}
+.rightBtn{
+    float: right;
+}
+
+.head1{
+    font-weight: bold;
+    
+}
+
+
+}

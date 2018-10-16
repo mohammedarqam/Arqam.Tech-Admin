@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar color="primary" >
+    <ion-title>Post Title</ion-title>
+    <ion-buttons end>
+      <button ion-button clear (click)="close()">Cancel</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+<ion-slides>
+  <ion-slide>
+  <ion-card>
+  <ion-card-content>
+  <ion-item>
+    <ion-label floating>Title</ion-label>
+    <ion-input type="text" (keyup.enter)="checkData()" [(ngModel)]="title" autofocus></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Categories</ion-label>
+    <ion-select [(ngModel)]="selCats" multiple="true" >
+      <ion-option *ngFor="let c of cats" [value]="c.Name">{{c.Name}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+
+  <button ion-button padding margin-top (click)="checkData()">Create Post</button>
+
+
+  </ion-card-content>
+  </ion-card>
+</ion-slide>
+</ion-slides>
+
+</ion-content>

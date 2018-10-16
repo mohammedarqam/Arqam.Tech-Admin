@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar color="primary" >
+    <ion-title>Post</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item>
+    <h1>{{pName}}</h1>
+  </ion-item>
+
+  <ion-item>
+    <h3 item-start >{{authName}}</h3>
+    <h3 item-end >{{time | date:'medium' }}</h3>
+  </ion-item>
+  
+  <ion-card>
+    <ion-card-content>
+        <p *ngFor="let p of postView" [class]="p.Stle" > {{p.Data }} </p>
+    </ion-card-content>
+  </ion-card>
+  
+  <button ion-button class="rightBtn" (click)="showAddBtn()" *ngIf="!showAdd" >Add Content</button>
+  
+  <ion-card *ngIf="showAdd" >
+    <ion-card-content>
+    <ion-item>
+    <ion-label floating>Content</ion-label>
+    <ion-textarea [(ngModel)]="contnt"></ion-textarea>
+    </ion-item>
+  
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+          <ion-item>
+            <ion-label floating>Priority</ion-label>
+            <ion-input type="number" [(ngModel)]="prio" ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+          <ion-label floating>Style</ion-label>
+          <ion-select [(ngModel)]="stle">
+            <ion-option value="head1">Heading 1</ion-option>
+            <ion-option value="head2">Heading 2</ion-option>
+            <ion-option value="head3">Heading 3</ion-option>
+          </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <div class="rightBtn">
+      <button ion-button item-end color="light" (click)="hideAddBtn()">Cancel</button>
+      <button ion-button item-end color="primary" (click)="testData()">Confirm</button>
+    </div>
+  </ion-card-content>
+  </ion-card>
+
+</ion-content>

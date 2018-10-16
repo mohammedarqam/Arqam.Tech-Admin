@@ -15,6 +15,12 @@ import { CategoriesViewPage } from '../pages/Categories/categories-view/categori
 import { UsersPage } from '../pages/Users/Users/users';
 import { UserOptionsPage } from '../pages/Users/user-options/user-options';
 import { UserDetailsPage } from '../pages/Users/user-details/user-details';
+import { PostsPage } from '../pages/Posts/posts/posts';
+import { AddPostsPage } from '../pages/Posts/add-posts/add-posts';
+import { AddTitlePage } from '../pages/Posts/add-title/add-title';
+import { PostEditPage } from '../pages/Posts/post-edit/post-edit';
+import { PostViewPage } from '../pages/Posts/post-view/post-view';
+import { PostOptionsPage } from '../pages/Posts/post-options/post-options';
 
 export const firebaseCred = {
   apiKey: "AIzaSyBirqKnWOtxUKau3VYbS2AZN_1UnIubHoY",
@@ -37,6 +43,12 @@ firebase.initializeApp(firebaseCred);
     UsersPage,
     UserOptionsPage,
     UserDetailsPage,
+    AddPostsPage,
+    AddTitlePage,
+    PostEditPage,
+    PostOptionsPage,
+    PostViewPage,
+    PostsPage,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +67,12 @@ firebase.initializeApp(firebaseCred);
     UsersPage,
     UserOptionsPage,
     UserDetailsPage,
+    AddPostsPage,
+    AddTitlePage,
+    PostEditPage,
+    PostOptionsPage,
+    PostViewPage,
+    PostsPage,
   ],
   providers: [
     StatusBar,

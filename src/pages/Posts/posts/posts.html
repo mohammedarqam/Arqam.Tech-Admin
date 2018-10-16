@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4 >
+  <ion-item no-lines class="content">
+  <h1 class="title" item-start>Posts</h1>
+  </ion-item>
+  </ion-col>
+  <ion-col col-6 push-2 >
+  <ion-searchbar item-end animated="true" placeholder="Search a Post..." 
+  [(ngModel)]="searchBar" (ionInput)="getItems(searchBar)"></ion-searchbar>
+  </ion-col>
+  </ion-row>
+  </ion-grid>
+
+
+<ion-grid text-center >
+<ion-navbar color="primary" >
+  <ion-row>
+    <ion-col col-3  >
+        <p class="headBar"> Title</p>
+    </ion-col>
+    <ion-col col-2>
+      <p class="headBar"> Author</p>
+    </ion-col>
+    <ion-col col-2>
+        <p class="headBar"> Categories</p>
+    </ion-col>
+    <ion-col col-2>
+        <p class="headBar"> Status </p>
+    </ion-col>
+    <ion-col col-2>
+        <p class="headBar"> TimeStamp </p>
+    </ion-col>
+    <ion-col col-1>
+
+    </ion-col>
+  </ion-row>
+</ion-navbar>
+</ion-grid>
+
+
+<ion-grid text-center >
+<ion-card *ngFor="let p of posts">
+<ion-card-content>
+  <ion-row>
+    <ion-col col-3 class="titl" >
+      <ion-title>{{p.Title}}</ion-title>
+    </ion-col>
+    <ion-col col-2>
+      {{p.Author}}
+    </ion-col>
+    <ion-col col-2>
+      <ion-badge *ngFor="let c of p.Categories">{{c}}</ion-badge>
+    </ion-col>
+    <ion-col col-2>
+      <button ion-button block [color]="p.clr" >{{p.Status}} </button>
+    </ion-col>
+    <ion-col col-2>
+      {{p.TimeStamp | date : 'medium' }}
+    </ion-col>
+    <ion-col col-1>
+      <button ion-button clear icon-only item-end (click)="viewOptions($event,p)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-card-content>
+</ion-card>
+</ion-grid>
+
+  <ion-fab right bottom>
+    <button ion-fab  (click)="addPostTitle()" >
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+
+  </ion-content>
