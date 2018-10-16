@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import * as firebase from 'firebase';
 import * as moment from 'moment';
-import { AddPostsPage } from '../add-posts/add-posts';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 @IonicPage()
@@ -42,7 +41,11 @@ export class AddTitlePage {
 
   checkData(){
     if(this.title){
-      this.cPost();  
+      if(this.selCats.length){
+        this.cPost();  
+      }else{
+        this.presentTost("Select a Category")
+      }
     }else{
       this.presentTost("Enter a Post title")
     }
@@ -75,7 +78,14 @@ export class AddTitlePage {
     })
   }
   
-
+  addCat(cat,i){
+    this.selCats.push(cat);
+    this.cats.splice(i,1);
+  }
+  rmCat(c,i){
+    this.cats.push(c);
+    this.selCats.splice(i,1);
+  }
   presentTost(msg){
     let toast = this.toastCtrl.create({
       message : msg,

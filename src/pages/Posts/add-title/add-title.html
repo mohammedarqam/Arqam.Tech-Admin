@@ -19,11 +19,16 @@
     <ion-input type="text" (keyup.enter)="checkData()" [(ngModel)]="title" autofocus></ion-input>
   </ion-item>
 
+  <ion-item *ngIf="selCats" >
+    <ion-badge margin-right class="cats"   *ngFor="let c of selCats; let i = index">{{c.Name}} 
+      <ion-icon name="close" padding-left (click)="rmCat(c,i)"></ion-icon>
+    </ion-badge>
+  </ion-item>
+
+
+
   <ion-item>
-    <ion-label floating>Categories</ion-label>
-    <ion-select [(ngModel)]="selCats" multiple="true" >
-      <ion-option *ngFor="let c of cats" [value]="c.Name">{{c.Name}}</ion-option>
-    </ion-select>
+    <ion-badge margin-right class="cats" color="light" (click)="addCat(cat,i)"  *ngFor="let cat of cats; let i = index">{{cat.Name}}</ion-badge>
   </ion-item>
 
 

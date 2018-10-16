@@ -59,7 +59,7 @@
       {{p.Author}}
     </ion-col>
     <ion-col col-2>
-      <ion-badge *ngFor="let c of p.Categories">{{c}}</ion-badge>
+      <ion-badge *ngFor="let c of p.Categories">{{c.Name}}</ion-badge>
     </ion-col>
     <ion-col col-2>
       <button ion-button block [color]="p.clr" >{{p.Status}} </button>
