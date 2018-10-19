@@ -20,7 +20,21 @@ export class AddTitlePage {
   catRef = this.db.list('Extra Data/Post Categories');
   cats: Array<any> = [];
   selCats : Array<any> = [];
-  public pkey : string = null;
+
+  levelRef = this.db.list('Extra Data/Levels');
+  levels: Array<any> = [];
+  levelSel : string;
+
+  slug : string;
+  slugValid : boolean = false;
+  slugEdit : boolean = false;
+  slugColor = "danger";
+
+  catPostRef = firebase.database().ref("Categories");
+  levelPostRef = firebase.database().ref("Levels");
+
+
+
 
   constructor(
   public navCtrl: NavController, 
@@ -31,6 +45,10 @@ export class AddTitlePage {
   ) {
     this.getCats();
     this.getAuthor();
+    this.getLevels();
+    if(!this.slug){
+      this.slugValid = false;
+    }
   }
 
   getAuthor(){
@@ -42,7 +60,11 @@ export class AddTitlePage {
   checkData(){
     if(this.title){
       if(this.selCats.length){
-        this.cPost();  
+        if(this.slugValid){
+          this.cPost();  
+        }else{
+          this.presentTost("Slug already Exists");
+        }
       }else{
         this.presentTost("Select a Category")
       }
@@ -52,15 +74,21 @@ export class AddTitlePage {
   }
 
   cPost(){
-    this.postRef.push({
+    this.postRef.child(this.slug).set({
       Title : this.title,
       Author : this.authName,
       Status : "Draft",
+      Level : this.levelSel,
       Categories : this.selCats,
       TimeStamp : moment().format()
-    }).then((res)=>{
-      this.pkey = res.key;
-      this.authorPostRef.child(res.key).set(true);
+    }).then(()=>{
+      this.authorPostRef.child(this.slug).set(true).then(()=>{
+        for(let i=0;i<=this.selCats.length-1;i++){
+          this.catPostRef.child(this.selCats[i]).child(this.slug).set(true);
+        }
+      }).then(()=>{
+        this.levelPostRef.child(this.levelSel).child(this.slug).set(true);
+      }) ;
     }).then(()=>{
       this.close();
     })  
@@ -73,11 +101,23 @@ export class AddTitlePage {
       snap.forEach(snp=>{
         let temp : any = snp.payload.val();
         temp.key = snp.key;
-        this.cats.push(temp);
+        this.cats.push(temp.Name);
       })
     })
   }
-  
+
+  getLevels(){
+    this.levelRef.snapshotChanges().subscribe(snap=>{
+      this.levels = [];
+      snap.forEach(snp=>{
+        let temp : any = snp.payload.val();
+        temp.key = snp.key;
+        this.levels.push(temp.Name);
+      })
+    })
+  }
+
+
   addCat(cat,i){
     this.selCats.push(cat);
     this.cats.splice(i,1);
@@ -98,4 +138,29 @@ export class AddTitlePage {
   close(){
     this.viewCtrl.dismiss();
   }
+  slugGen(){
+    this.slug = this.title.toLowerCase().replace(/ /g, "-") ;
+    this.slugValidation();
+  }
+
+  slugValidation(){
+    if(this.slug.length){
+      firebase.database().ref("Posts").child(this.slug).once("value",snap=>{
+        if(!snap.exists()){
+          this.slugValid = true;
+          this.slugColor = "secondary";
+        }else{
+          this.slugValid = false;
+          this.slugColor = "danger";
+        }
+      })
+    }
+  }
+  showEditSlug(){
+    this.slugEdit = true;
+  }
+  doneEditSlug(){
+    this.slugEdit = false;
+  }
+
 }

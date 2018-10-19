@@ -52,17 +52,18 @@
 <ion-card *ngFor="let p of posts">
 <ion-card-content>
   <ion-row>
-    <ion-col col-3 class="titl" >
-      <ion-title>{{p.Title}}</ion-title>
+    <ion-col col-3 class="titlCol" >
+        <h1 class="titl">{{p.Title}}</h1>
+        <a href="https://arqam.tech/post/{{p.key}}" >https://arqam.tech/{{p.key}}</a>
     </ion-col>
     <ion-col col-2>
       {{p.Author}}
     </ion-col>
     <ion-col col-2>
-      <ion-badge *ngFor="let c of p.Categories">{{c.Name}}</ion-badge>
+      <ion-badge *ngFor="let c of p.Categories">{{c}}</ion-badge>
     </ion-col>
     <ion-col col-2>
-      <button ion-button block [color]="p.clr" >{{p.Status}} </button>
+      <button ion-button block [color]="p.clr" (click)="confirmStatusChange(p)" >{{p.Status}} </button>
     </ion-col>
     <ion-col col-2>
       {{p.TimeStamp | date : 'medium' }}

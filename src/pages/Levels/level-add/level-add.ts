@@ -3,15 +3,16 @@ import { IonicPage, NavController, NavParams, ViewController, ToastController } 
 import * as firebase from 'firebase';
 import moment from 'moment';
 
+
 @IonicPage()
 @Component({
-  selector: 'page-add-categories',
-  templateUrl: 'add-categories.html',
+  selector: 'page-level-add',
+  templateUrl: 'level-add.html',
 })
-export class AddCategoriesPage {
+export class LevelAddPage {
 
   name : string;
-  catRef = firebase.database().ref("Extra Data/Post Categories");
+  levelRef = firebase.database().ref("Extra Data/Levels");
   constructor(
   public navCtrl: NavController, 
   public viewCtrl : ViewController,
@@ -23,9 +24,9 @@ export class AddCategoriesPage {
 
   checkData(){
     if(this.name){
-      this.addCat();
+      this.addLevel();
     }else{  
-      this.presentToast("Category Name Empty")
+      this.presentToast("Add a label for Level")
     }
   }
 
@@ -33,12 +34,12 @@ export class AddCategoriesPage {
     this.viewCtrl.dismiss();
   }
 
-  addCat(){
-    this.catRef.push({
+  addLevel(){
+    this.levelRef.push({
       Name : this.name,
       TimeStamp : moment().format()
     }).then(()=>{
-      this.presentToast("Category Added")
+      this.presentToast("Level Added")
       this.close();
     })
   }

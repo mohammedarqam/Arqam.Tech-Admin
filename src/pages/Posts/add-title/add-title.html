@@ -16,21 +16,44 @@
   <ion-card-content>
   <ion-item>
     <ion-label floating>Title</ion-label>
-    <ion-input type="text" (keyup.enter)="checkData()" [(ngModel)]="title" autofocus></ion-input>
+    <ion-input type="text" (keyup.enter)="checkData()" (ionChange)="slugGen()" [(ngModel)]="title" autofocus></ion-input>
   </ion-item>
 
+
+
+  <div *ngIf="!slugEdit">
+  <ion-item *ngIf="slug" >
+    <p item-start><a href="/{{slug}}" ion-text [color]="slugColor">https://arqam.tech/{{slug}}</a></p>
+    <button ion-button item-end icon-only clear *ngIf="!slugEdit" (click)="showEditSlug()" >
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-item>
+  </div>
+
+  <ion-item *ngIf="slugEdit" >
+    <ion-label floating>Slug</ion-label>
+    <ion-input type="text" (keyup.enter)="checkData()" [(ngModel)]="slug" (ionChange)="slugValidation()" ></ion-input>
+  </ion-item>
+
+  <button ion-button *ngIf="slugEdit" clear (click)="doneEditSlug()">Done</button>
+
   <ion-item *ngIf="selCats" >
-    <ion-badge margin-right class="cats"   *ngFor="let c of selCats; let i = index">{{c.Name}} 
+    <ion-badge margin-right class="cats"   *ngFor="let c of selCats; let i = index">{{c}} 
       <ion-icon name="close" padding-left (click)="rmCat(c,i)"></ion-icon>
     </ion-badge>
   </ion-item>
 
 
-
   <ion-item>
-    <ion-badge margin-right class="cats" color="light" (click)="addCat(cat,i)"  *ngFor="let cat of cats; let i = index">{{cat.Name}}</ion-badge>
+    <ion-badge margin-right class="cats" color="light" (click)="addCat(cat,i)"  *ngFor="let cat of cats; let i = index">{{cat}}</ion-badge>
   </ion-item>
 
+  <ion-item>
+    <ion-label floating>Select Level</ion-label>
+    <ion-select [(ngModel)]="levelSel">
+      <ion-option *ngFor="let l of levels" [value]="l">{{l}}</ion-option>
+    </ion-select>
+  </ion-item>
 
   <button ion-button padding margin-top (click)="checkData()">Create Post</button>
 

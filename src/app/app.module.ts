@@ -21,6 +21,8 @@ import { AddTitlePage } from '../pages/Posts/add-title/add-title';
 import { PostEditPage } from '../pages/Posts/post-edit/post-edit';
 import { PostViewPage } from '../pages/Posts/post-view/post-view';
 import { PostOptionsPage } from '../pages/Posts/post-options/post-options';
+import { LevelsPage } from '../pages/Levels/levels/levels';
+import { LevelAddPage } from '../pages/Levels/level-add/level-add';
 
 export const firebaseCred = {
   apiKey: "AIzaSyBirqKnWOtxUKau3VYbS2AZN_1UnIubHoY",
@@ -49,6 +51,8 @@ firebase.initializeApp(firebaseCred);
     PostOptionsPage,
     PostViewPage,
     PostsPage,
+    LevelsPage,
+    LevelAddPage,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +77,8 @@ firebase.initializeApp(firebaseCred);
     PostOptionsPage,
     PostViewPage,
     PostsPage,
+    LevelsPage,
+    LevelAddPage,
   ],
   providers: [
     StatusBar,

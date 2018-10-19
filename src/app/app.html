@@ -26,10 +26,10 @@
       </ion-content>
       <ion-footer class="menu-footer">
         <ion-list no-lines>
-        <button ion-button block *ngIf="full"  (click)="signOut()" color="danger">
+        <button ion-button block *ngIf="full"  (click)="confirmSignOut()" color="danger">
           Sign Out
         </button>
-        <button ion-item block icon-only *ngIf="!full" (click)="signOut()" color="danger">
+        <button ion-item block icon-only *ngIf="!full" (click)="confirmSignOut()" color="danger">
           <ion-icon name="md-power" item-left ></ion-icon>
         </button>
   

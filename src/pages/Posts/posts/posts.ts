@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, PopoverController, AlertController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AddTitlePage } from '../add-title/add-title';
 import { PostOptionsPage } from '../post-options/post-options';
-
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -22,6 +22,7 @@ export class PostsPage {
   public popoverCtrl : PopoverController,
   private db : AngularFireDatabase,
   public navParams: NavParams,
+  public alertCtrl : AlertController,
   ) {
     this.getPosts();
   }
@@ -80,6 +81,51 @@ export class PostsPage {
   addPostTitle(){
     let postTitle = this.modalCtrl.create(AddTitlePage,null,{enableBackdropDismiss : false});
     postTitle.present();
+  }
+
+  confirmStatusChange(p){
+    let alterStatus : string;
+    switch (p.Status) {
+      case "Draft": alterStatus = "Publish";
+        break;
+      case "Published": alterStatus = "Unpublish";
+        break;
+    }
+
+    let alert = this.alertCtrl.create({
+      title: 'Do you want to '+alterStatus + '?',
+      message: 'This post is '+p.Status + " now",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: alterStatus+'?',
+          handler: () => {
+
+            switch (p.Status) {
+              case "Draft": this.publish(p.key);
+                break;
+              case "Published": this.Unpublish(p.key);
+                break;
+            }
+        
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+
+  publish(key){
+    firebase.database().ref("Posts").child(key).child("Status").set("Published");
+  }
+  Unpublish(key){
+    firebase.database().ref("Posts").child(key).child("Status").set("Draft");
   }
 
 }

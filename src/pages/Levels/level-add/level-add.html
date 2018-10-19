@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary" >
-    <ion-title>Add a Food Category</ion-title>
+    <ion-title>Add a Level</ion-title>
     <ion-buttons end>
       <button ion-button clear icon-only (click)="close()">
         <ion-icon name="md-close"></ion-icon>
@@ -16,7 +16,7 @@
   <ion-card>
     <ion-card-content>
       <ion-item>
-        <ion-label  floating>Category Name</ion-label>
+        <ion-label  floating>Level</ion-label>
         <ion-input type="text" [(ngModel)]="name" (keyup.enter)="checkData()" (ionChange)="capsName(name)" autofocus ></ion-input>
       </ion-item>
 

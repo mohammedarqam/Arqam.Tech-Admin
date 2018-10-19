@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ToastController } from 'ionic-angular';
+import { Nav, Platform, ToastController, AlertController } from 'ionic-angular';
 import { DashboardPage } from '../pages/Extra/dashboard/dashboard';
 import { LoginPage } from '../pages/Extra/login/login';
 import * as firebase from 'firebase';
 import { CategoriesViewPage } from '../pages/Categories/categories-view/categories-view';
 import { UsersPage } from '../pages/Users/Users/users';
 import { PostsPage } from '../pages/Posts/posts/posts';
+import { LevelsPage } from '../pages/Levels/levels/levels';
 
 
 
@@ -25,6 +26,7 @@ export class MyApp {
   constructor(
   public platform: Platform,
   public toastCtrl : ToastController,
+  public alertCtrl : AlertController,
   ) {
     this.initializeApp();
 
@@ -32,6 +34,7 @@ export class MyApp {
       { title: 'DashBoard', component: DashboardPage, icon: "flash",color: "yellowi" },
       { title: 'Posts', component: PostsPage, icon: "md-paper",color: "whiter" },
       { title: 'Categories', component: CategoriesViewPage, icon: "ios-bookmark",color: "whiter" },
+      { title: 'Levels', component: LevelsPage, icon: "ios-bookmark",color: "whiter" },
       { title: 'Users', component: UsersPage , icon: "ios-people",color: "whiter" },
 
     ];
@@ -46,7 +49,7 @@ export class MyApp {
         firebase.database().ref("Admin Data").child("Admins").child(user.uid).once('value',itemSnap=>{
             if(itemSnap.exists()){
               var welMsg = "Welcome"+" "+itemSnap.val().Name;
-              this.rootPage = PostsPage;
+              this.rootPage = DashboardPage;
               this.presentToast(welMsg);
             }else{
               firebase.auth().signOut().then(()=>{
@@ -71,6 +74,28 @@ export class MyApp {
   checkActive(page) {
     return page == this.activePage;
   }
+
+  confirmSignOut() {
+    let alert = this.alertCtrl.create({
+      title: 'Do you want to Log out ?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Log out ?',
+          handler: () => {
+            this.signOut();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  
 
   signOut() {
     firebase.auth().signOut().then(() => {

@@ -2,22 +2,23 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ToastController, AlertController } from 'ionic-angular';
 import { AngularFireDatabase} from '@angular/fire/database';
 import * as firebase from 'firebase';
-import { AddCategoriesPage } from '../add-categories/add-categories';
+import { LevelAddPage } from '../level-add/level-add';
+
 
 @IonicPage()
 @Component({
-  selector: 'page-categories-view',
-  templateUrl: 'categories-view.html',
+  selector: 'page-levels',
+  templateUrl: 'levels.html',
 })
-export class CategoriesViewPage {
+export class LevelsPage {
 
-  catsRef =this.db.list('Extra Data/Post Categories');
-  cats: Array<any> = [];
-  catsLoaded: Array<any> = [];
+  levelsRef =this.db.list('Extra Data/Levels');
+  levels: Array<any> = [];
+  levelsLoaded: Array<any> = [];
 
 
 
-  CatRef = firebase.database().ref("Extra Data/Post Categories");
+  LevRef = firebase.database().ref("Extra Data/Levels");
 
   constructor(
   public navCtrl: NavController, 
@@ -27,28 +28,28 @@ export class CategoriesViewPage {
   public modalCtrl : ModalController,
   public navParams: NavParams
   ) {
-    this.getCats();
+    this.getLevels();
   }
 
-  getCats(){
-    this.catsRef.snapshotChanges().subscribe(snap=>{
+  getLevels(){
+    this.levelsRef.snapshotChanges().subscribe(snap=>{
       let tempArray = [];
       snap.forEach(snp=>{
         let temp : any = snp.payload.val();
         temp.key = snp.key;
-        firebase.database().ref("Categories").child(temp.Name).once("value",snip=>{
-          temp.Count = snip.numChildren();
-        })
+        // firebase.database().ref("Categories").child(temp.Name).once("value",snip=>{
+        //   temp.Count = snip.numChildren();
+        // })
         tempArray.push(temp);
       })
-      this.cats = tempArray;
-      this.catsLoaded = tempArray;
+      this.levels = tempArray;
+      this.levelsLoaded = tempArray;
     })
 
   }
 
   initializeItems(): void {
-    this.cats = this.catsLoaded;
+    this.levels = this.levelsLoaded;
   }
   getItems(searchbar) {
     this.initializeItems();
@@ -56,7 +57,7 @@ export class CategoriesViewPage {
     if (!q) {
       return;
     }
-    this.cats = this.cats.filter((v) => {
+    this.levels = this.levels.filter((v) => {
       if(v.Name && q) {
         if (v.Name.toLowerCase().indexOf(q.toLowerCase()) > -1) {
           return true;
@@ -68,16 +69,16 @@ export class CategoriesViewPage {
 
 
 
-  gtAddCategory(){
-    let catsAdd = this.modalCtrl.create(AddCategoriesPage,null,{enableBackdropDismiss : false});
-    catsAdd.present();
+  gtAddLevel(){
+    let levAdd = this.modalCtrl.create(LevelAddPage,null,{enableBackdropDismiss : false});
+    levAdd.present();
   }
 
 
-  deleteCat(cat) {
+  deleteLevel(lev) {
     let confirm = this.alertCtrl.create({
-      title: 'Are you sure you want to Delete this Category ?',
-      message: 'This banner cannot be recovered again',
+      title: 'Are you sure you want to Delete this Level ?',
+      message: 'This level cannot be recovered again',
       buttons: [
         {
           text: 'No, Its a mistake',
@@ -88,7 +89,7 @@ export class CategoriesViewPage {
         {
           text: 'Yes, I understand',
           handler: () => {
-            this.delete(cat);
+            this.delete(lev);
           }
         }
       ]
@@ -99,8 +100,8 @@ export class CategoriesViewPage {
 
   delete(banner) {
 
-      this.CatRef.child(banner.key).remove().then(() => {
-        this.presentToast('Category Deleted');
+      this.LevRef.child(banner.key).remove().then(() => {
+        this.presentToast('Level Deleted');
       });
  }
 
