@@ -7,6 +7,9 @@ import { CategoriesViewPage } from '../pages/Categories/categories-view/categori
 import { UsersPage } from '../pages/Users/Users/users';
 import { PostsPage } from '../pages/Posts/posts/posts';
 import { LevelsPage } from '../pages/Levels/levels/levels';
+import { PostEditPage } from '../pages/Posts/post-edit/post-edit';
+import { PostViewPage } from '../pages/Posts/post-view/post-view';
+import { AddPostsPage } from '../pages/Posts/add-posts/add-posts';
 
 
 
@@ -49,7 +52,7 @@ export class MyApp {
         firebase.database().ref("Admin Data").child("Admins").child(user.uid).once('value',itemSnap=>{
             if(itemSnap.exists()){
               var welMsg = "Welcome"+" "+itemSnap.val().Name;
-              this.rootPage = DashboardPage;
+              this.rootPage = PostViewPage;
               this.presentToast(welMsg);
             }else{
               firebase.auth().signOut().then(()=>{

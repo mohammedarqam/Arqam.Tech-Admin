@@ -29,17 +29,54 @@
     <h3 item-start >{{authName}}</h3>
     <h3 item-end >{{time | date:'medium' }}</h3>
   </ion-item>
+
+  {{tag}} {{tagEnd}}
+  
   <ion-card *ngIf="postView.length" >
     <ion-card-content>
-        <p *ngFor="let p of postView" [class]="p.Stle" > {{p.Data }}  </p>
+      <div *ngFor="let l of postView" [innerHtml]="l.Data" ></div>
     </ion-card-content>
   </ion-card>
   
-  <button ion-button class="rightBtn" (click)="showAddBtn()" *ngIf="!showAdd" >Add Content</button>
+  <!-- <button ion-button class="rightBtn" (click)="showAddBtn()" *ngIf="!showAdd" >Add Content</button> -->
   
 </ion-col>
 
 
+<ion-col col-4>
+  <ion-row>
+    <ion-col col-6>
+      <ion-card>
+        <ion-card-content>
+          <ion-card-title>
+              Heading 1
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col col-6>
+      <ion-card>
+        <ion-card-content>
+          <ion-card-title>
+              Heading 2
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col col-6 (click)="getTags('btn')" >
+      <ion-card>
+        <ion-card-content>
+          <ion-card-title>
+            Button
+          </ion-card-title>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+  </ion-row>
+</ion-col>
 
 
 <ion-col col-4>

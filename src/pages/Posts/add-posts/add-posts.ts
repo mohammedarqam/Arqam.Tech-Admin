@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, ToastController } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as firebase from 'firebase';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @IonicPage()
 @Component({
@@ -10,7 +11,7 @@ import * as firebase from 'firebase';
 })
 export class AddPostsPage {
 
-  post = this.navParams.get("post");
+  postKey = "something-with-level";//this.navParams.get("post");
 
 
   pName : string = '';
@@ -27,12 +28,25 @@ export class AddPostsPage {
   prio : string;
   stle : string="head1";
 
-  postRef =this.db.list(`Content/${this.post.key}`);
+  postRef =firebase.database().ref("Content").child(this.postKey);
   postView : Array<any> = [];
+
+  tag : string ;
+  tagEnd :string;
+
+  getTags(tagSel){
+    this.showAddBtn();
+    switch (tagSel) {
+      case "btn": this.tag = "<ion-button>";this.tagEnd = "</ion-button>";
+        break;
+    }
+  }
+
 
   constructor(
   public navCtrl: NavController, 
   public db :AngularFireDatabase,
+  private sanitizer: DomSanitizer,
   public toastCtrl : ToastController,
   public menuCtrl : MenuController,
   public navParams: NavParams
@@ -42,13 +56,14 @@ export class AddPostsPage {
   }
 
   getPost(){
-    this.postRef.snapshotChanges().subscribe(snap=>{
+    this.postRef.once("value",snap=>{
       this.postView = [];
       this.prioC=0;
       this.prio = this.prioC.toString();
       snap.forEach(snp=>{
-        let temp : any = snp.payload.val();
+        let temp : any = snp.val();
         temp.Priority = snp.key;
+        // temp.Data = this.sanitizer.bypassSecurityTrustHtml()
         this.postView.push(temp);
         this.prioC++;
         this.prio = this.prioC.toString();
@@ -69,7 +84,7 @@ export class AddPostsPage {
   }
 
   getPostAtt(){
-    firebase.database().ref("Posts").child(this.post.key).once('value',snap=>{
+    firebase.database().ref("Posts").child(this.postKey).once('value',snap=>{
       this.pName = snap.val().Title;
       this.time= snap.val().TimeStamp;
       this.status = snap.val().Status;
@@ -98,8 +113,8 @@ export class AddPostsPage {
   }
 
   addContent(){
-    firebase.database().ref("Content").child(this.post.key).child(this.prio).set({
-      Data : this.contnt,
+    firebase.database().ref("Content").child(this.postKey).child(this.prio).set({
+      Data : this.tag+this.contnt+this.tagEnd,
       Stle : this.stle,
     }).then(()=>{
       this.prioC++;
@@ -131,12 +146,12 @@ export class AddPostsPage {
   }
   
   publish(){
-    firebase.database().ref("Posts").child(this.post.key).child("Status").set("Published").then(()=>{
+    firebase.database().ref("Posts").child(this.postKey).child("Status").set("Published").then(()=>{
       this.getPostAtt();
     });
   }
   Unpublish(){
-    firebase.database().ref("Posts").child(this.post.key).child("Status").set("Draft").then(()=>{
+    firebase.database().ref("Posts").child(this.postKey).child("Status").set("Draft").then(()=>{
       this.getPostAtt();
     });
   }

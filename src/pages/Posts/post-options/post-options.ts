@@ -21,7 +21,7 @@ export class PostOptionsPage {
   }
 
   AddData(){
-    this.navCtrl.push(AddPostsPage,{post :this.post} )
+    this.navCtrl.push(AddPostsPage,{post :this.post.key} )
     this.close();
   }
   viewPost(){

@@ -1,3 +1,6 @@
 page-post-view {
-
+.smallIn{
+    border: 1px solid map-get($colors,primary);
+    align-self: center;
+}
 }
